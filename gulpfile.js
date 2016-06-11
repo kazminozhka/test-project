@@ -3,7 +3,7 @@ var concatCss = require('gulp-concat-css');
 var minifyCSS = require('gulp-minify-css');
 var rename = require("gulp-rename");
 var notify = require("gulp-notify");
-var autoprefixer = require('gulp-autoprefixer');
+var prefix = require('gulp-autoprefixer');
 var connect = require('gulp-connect');
 
 gulp.task('connect', function() {
@@ -22,9 +22,7 @@ gulp.task('html', function() {
 gulp.task('css', function () {
   return gulp.src('css/*.css')
     .pipe(concatCss("css/bundle.css"))
-    .pipe(autoprefixer({
-			browsers: ['last 5 versions']
-		}))
+    .pipe(prefix('last 2 versions', '> 1%', 'ie 9'))
     .pipe(minifyCSS({keepBreaks:true}))
     .pipe(rename("bundle.min.css"))
     .pipe(gulp.dest('css/'))

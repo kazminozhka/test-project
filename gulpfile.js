@@ -7,6 +7,7 @@ var prefix = require('gulp-autoprefixer');
 var connect = require('gulp-connect');
 var scss = require("gulp-scss");
 var uncss = require('gulp-uncss');
+var wiredep = require('wiredep').stream;
 
 gulp.task('connect', function() {
   connect.server({
@@ -33,9 +34,20 @@ gulp.task('css', function () {
     .pipe(connect.reload());
 });
 
+gulp.task('bower', function () {
+  gulp.src('index.html')
+    .pipe(wiredep({
+      directory: "bower_components"
+    }))
+    .pipe(gulp.dest(''));
+});
+
 gulp.task('watch', function() {
 	gulp.watch('scss/*.scss', ['css']);
 	gulp.watch('index.html', ['html']);
+	gulp.watch('bower.json', ['bower']);
 });
 
-gulp.task('default', ['connect', 'watch']);
+
+
+gulp.task('default', ['connect', 'bower', 'watch']);

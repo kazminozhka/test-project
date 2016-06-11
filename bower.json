@@ -1,0 +1,25 @@
+{
+  "name": "test-project",
+  "description": "Special project for testin all new technologies",
+  "main": "index.html",
+  "authors": [
+    "kazminozhka"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "test",
+    "test-project",
+    "тестовый проект"
+  ],
+  "homepage": "https://github.com/kazminozhka/test-project",
+  "private": true,
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "^3.0.0",
+    "normalize-css": "normalize.css#^4.1.1",
+    "tooltipster": "^3.3.0"
+  }
+}

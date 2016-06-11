@@ -5,6 +5,8 @@ var rename = require("gulp-rename");
 var notify = require("gulp-notify");
 var prefix = require('gulp-autoprefixer');
 var connect = require('gulp-connect');
+var scss = require("gulp-scss");
+var uncss = require('gulp-uncss');
 
 gulp.task('connect', function() {
   connect.server({
@@ -20,18 +22,19 @@ gulp.task('html', function() {
 });
  
 gulp.task('css', function () {
-  return gulp.src('css/*.css')
-    .pipe(concatCss("css/bundle.css"))
+  return gulp.src('scss/*.scss')
+    .pipe(scss())
+    .pipe(uncss({
+            html: ['index.html']
+        }))
     .pipe(prefix('last 2 versions', '> 1%', 'ie 9'))
     .pipe(minifyCSS({keepBreaks:true}))
-    .pipe(rename("bundle.min.css"))
     .pipe(gulp.dest('css/'))
-    .pipe(notify("file <%= file.relative %> is modified"))
     .pipe(connect.reload());
 });
 
 gulp.task('watch', function() {
-	gulp.watch('css/*.css', ['css']);
+	gulp.watch('scss/*.scss', ['css']);
 	gulp.watch('index.html', ['html']);
 });
 

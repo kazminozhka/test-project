@@ -3,16 +3,38 @@ var concatCss = require('gulp-concat-css');
 var minifyCSS = require('gulp-minify-css');
 var rename = require("gulp-rename");
 var notify = require("gulp-notify");
+var autoprefixer = require('gulp-autoprefixer');
+var connect = require('gulp-connect');
+
+gulp.task('connect', function() {
+  connect.server({
+    root: '',
+    livereload: true,
+    open: true
+  });
+});
+
+gulp.task('html', function() {
+  gulp.src('index.html')
+  	.pipe(connect.reload());
+});
  
-gulp.task('default', function () {
+gulp.task('css', function () {
   return gulp.src('css/*.css')
     .pipe(concatCss("css/bundle.css"))
+    .pipe(autoprefixer({
+			browsers: ['last 5 versions']
+		}))
     .pipe(minifyCSS({keepBreaks:true}))
     .pipe(rename("bundle.min.css"))
     .pipe(gulp.dest('css/'))
-    .pipe(notify("file <%= file.relative %> is modified"));
+    .pipe(notify("file <%= file.relative %> is modified"))
+    .pipe(connect.reload());
 });
 
 gulp.task('watch', function() {
-	gulp.watch('css/*.css', ['default']);
+	gulp.watch('css/*.css', ['css']);
+	gulp.watch('index.html', ['html']);
 });
+
+gulp.task('default', ['connect', 'watch']);
